@@ -12,7 +12,7 @@
 # For training using events like 50% as signal and 50% as continuum
 sh 2_combine_for_train_6pm.sh
 sh 3_bcs_deltaz_filter.sh
-sh 3_bcs_a_signal_only.sh
+sh 3_bcs_a_TM.sh
 sh 3_bcs_b_scale.sh
 sh 4_combine_for_final_train_lumino.sh
 sh 5_train.sh

@@ -65,12 +65,13 @@ for i in range(len(input_tree)):
 
 histogram = []      ## will be define as 4*7
 for var in range(len(variable_name)):
-    histogram_row = []      ## 4-D list to create new ROW
+    histogram_row = []      ## 4-D list to create new ROW  # Definig list of 4 histograms for ploting 4 variables
     for root_file_no in range(len(input_filename)):
         histogram_row.append(ROOT.TH1F(f"{histogram_title[var]}", f"Distribution of {histogram_title[var]}",bin_number[var], lower_range[var], upper_range[var]))
-                #Adding elements(7) through row-wise
+                #Adding elements(7) through row-wise #ploting same variable for given all input files
     histogram.append(histogram_row)     # 4*7-D ###  appending ROWs(4) along column
 
+# Filling all histograms
 for root_file_no in range(len(input_tree)):
     for iEvent in range(total_event_number[root_file_no]):
         input_tree[root_file_no].GetEntry(iEvent)

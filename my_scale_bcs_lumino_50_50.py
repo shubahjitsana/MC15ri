@@ -45,7 +45,7 @@ NEvent[3] = intree_ccbar.GetEntries()
 print(f"The event number of u,d,s,c(bar) are : {NEvent}")
 
 NEvent_total = NEvent.sum()
-cross_section_ratio_in_percentage = np.array([0.4363, 0.1084, 0.10298, 0.3523])
+cross_section_ratio_in_percentage = np.array([0.43168, 0.10785, 0.10301, 0.35745])
 print(f"The cross sections ratio of u,d,s,c(bar) are : {cross_section_ratio_in_percentage}")
 
 New_NEvent = bbbar_Event * cross_section_ratio_in_percentage

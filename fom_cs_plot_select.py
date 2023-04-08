@@ -118,8 +118,8 @@ for i in sys.argv[1:]:
     my_info.SetTextSize(0.035)
     my_info.SetTextAlign(12)  #centered aligned
     my_info.DrawLatex(0.3,fom_max * 0.8,f"cut on FBDT output: {cs_prob_cut_for_fom_max}")
-    my_info.DrawLatex(0.3,fom_max * 0.75,f"{cont_rejection_percentage}% bkg rejection")
-    my_info.DrawLatex(0.3,fom_max * 0.7,f"{sig_efficiency}% sig efficiency")
+    my_info.DrawLatex(0.3,fom_max * 0.75,f"{cont_rejection_percentage:.2f}% bkg rejection")
+    my_info.DrawLatex(0.3,fom_max * 0.7,f"{sig_efficiency:.2f}% sig efficiency")
 
     fom_plot_output_path = fom_txt_output_path
     fom_plot_output_filename = "fom_plot_mbcde_kid_md.pdf"

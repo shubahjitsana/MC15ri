@@ -25,7 +25,7 @@ for i in range(6):
     outTree = inTree.CloneTree(0)
     print(f"Filtering deltaZ at {input_filename[i]} and saving to {output_filename[i]}")
 
-    # Scaling the file
+    # Selecting events
     deltaZ_is_not_NAN_event_number = 0
     for iEvent in range(inTree.GetEntries()):   
         inTree.GetEntry(iEvent)

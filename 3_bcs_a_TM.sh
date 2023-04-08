@@ -14,8 +14,8 @@ output_path=$input_path
 in2out2=""
 in2out2+="$input_path/train_deltaz_filtered_charged.root "
 in2out2+="$input_path/train_deltaz_filtered_signal.root "
-in2out2+="$output_path/train_deltaz_filtered_charged_signal_only.root "
-in2out2+="$output_path/train_deltaz_filtered_signal_signal_only.root "
+in2out2+="$output_path/train_deltaz_filtered_charged_TM.root "
+in2out2+="$output_path/train_deltaz_filtered_signal_TM.root "
 
 # Command for scaling
 # echo "$(pyroot my_signal.py $in2out2)"       #For own system
@@ -28,6 +28,6 @@ then
     $(rm -f ${output_file})
     echo "So $output_file has been deleted and a new file will be generated."
 fi
-input_files="$output_path/train_deltaz_filtered_charged_signal_only.root "
-input_files+="$output_path/train_deltaz_filtered_signal_signal_only.root "
+input_files="$output_path/train_deltaz_filtered_charged_TM.root "
+input_files+="$output_path/train_deltaz_filtered_signal_TM.root "
 echo "$(hadd ${output_file} ${input_files})"

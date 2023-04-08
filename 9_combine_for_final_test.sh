@@ -17,13 +17,16 @@ then
 fi
 
 # Reading input files
-input_files=$(ls ${input_path}/*.root)
-input_file_count=$(ls ${input_path}/*.root | wc -l)
-echo "Number of input files in $input_path is $input_file_count"
+# input_files=$(ls ${input_path}/*.root)
+# input_file_count=$(ls ${input_path}/*.root | wc -l)
+# echo "Number of input files in $input_path is $input_file_count"
 
-# input_files="$input_path/test_bbbar.root $input_path/test_uubar.root $input_path/test_ddbar.root"
-# input_files+=" "
-# input_files+="$input_path/test_ssbar.root $input_path/test_ccbar.root"
+declare -a options=("uubar" "ddbar" "ssbar" "ccbar" "bbbar")
+input_files=""
+for opt in "${options[@]}"
+do
+    input_files+="$input_path/test_deltaz_filtered_$opt.root "
+done
 
 # Combinig files
 echo "Please wait for Combinded output file from $input_path folder....."

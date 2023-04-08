@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# takes commadnd as "pyroot my_anyfile_anyvariable_bin_range.py file_path variable_name bin_number lower_range upper_range x_title"
+# takes commadnd as "pyroot my_anyfile_anyvariable_bin_range.py file_path variable_name bin_number lower_range upper_range x_title output_filename"
 
 import ROOT
 import sys
@@ -20,11 +20,11 @@ input_from_6th_string = sys.argv[6].split("/")
 histogram_title = ' '.join(input_from_6th_string)
 
 # Different output filename option for different files in one folder but ploting same variable
-input_filename_string = input_filename.split("data/combined/")    # ONLY need to change here depending on the pathname you are giving
-input_filename_last_string = input_filename_string[1]
-output_filename_option = input_filename_last_string.split(".root")
-output_filename = output_filename_option[0] + "_" + variable_name
-# output_filename = variable_name
+# input_filename_string = input_filename.split("data/combined/")    # ONLY need to change here depending on the pathname you are giving
+# input_filename_last_string = input_filename_string[1]
+# output_filename_option = input_filename_last_string.split(".root")
+# output_filename = output_filename_option[0] + "_" + variable_name
+output_filename = sys.argv[7]
 
 
 
@@ -45,7 +45,38 @@ for iEvent in range(total_event_number):
     input_tree.GetEntry(iEvent)
     # variable_value = getattr(input_tree, f"{variable_name}")
     # histogram[0].Fill(variable_value)
-    histogram[0].Fill(getattr(input_tree, f"{variable_name}"))
+    value_of_var = getattr(input_tree, f"{variable_name}")
+
+    deltae = getattr(input_tree, 'deltaE')
+    mbc = getattr(input_tree, 'Mbc')
+    kid = getattr(input_tree, 'Kp_PID_bin_kaon')
+    D_s_InvM = getattr(input_tree, 'D_s_InvM')
+    D_10D_md = getattr(input_tree, 'D_10D_md')
+    InvM1stand2ndpi = getattr(input_tree, 'InvM1stand2ndpi')
+    InvM2ndand3rdpi = getattr(input_tree, 'InvM2ndand3rdpi')
+    InvMD0and1stpi = getattr(input_tree, 'InvMD0and1stpi')
+    InvMD0and2ndpi = getattr(input_tree, 'InvMD0and2ndpi')
+    InvMD0and3rdpi = getattr(input_tree, 'InvMD0and3rdpi')
+    DstrminusroeD_md = getattr(input_tree, 'DstrminusroeD_md')
+    issignal = getattr(input_tree, 'isSignal')
+
+    if (
+        (issignal == 1) and
+        (value_of_var > lower_range and value_of_var < upper_range) and
+        (deltae > -0.15 and deltae < 0.15) and 
+        (mbc > 5.23 and mbc < 5.29) and 
+        # (md0 > 1.85 and md0 < 1.88) # and 
+        # (kid > 0.6) and 
+        (D_s_InvM < 1.958 or D_s_InvM > 1.978) and 
+        (D_10D_md < 0.496 or D_10D_md > 0.628) and 
+        (InvM1stand2ndpi < 0.489 or InvM1stand2ndpi > 0.506) and 
+        (InvM2ndand3rdpi < 0.49 or InvM2ndand3rdpi > 0.505) and 
+        (InvMD0and1stpi < 2.0085 or InvMD0and1stpi > 2.0122) and 
+        (InvMD0and2ndpi < 2.0087 or InvMD0and2ndpi > 2.0118) and 
+        (InvMD0and3rdpi < 2.009 or InvMD0and3rdpi > 2.0116) and 
+        (DstrminusroeD_md < 0.14402 or DstrminusroeD_md > 0.14682)
+    ):
+        histogram[0].Fill(value_of_var)
 
 colors = [ROOT.kViolet+10]
 bin_size_MeV = ((upper_range - lower_range) * 1000)/bin_number      # convert GeV to MeV

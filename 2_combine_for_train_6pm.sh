@@ -16,13 +16,28 @@ else
     echo "$output_path has been created"
 fi
 
-let store_upto_charged=${1:-480}
-let store_upto_uubar=${2:-1019}
-let store_upto_ddbar=${3:-255}
-let store_upto_ssbar=${4:-243}
-let store_upto_ccbar=${5:-924}
-# let store_upto_signal=${6:-5}
-let store_upto_signal=${6:-6}   # we will keep 5th file for test and {(1-4)&6} files are for train
+# 55.4:44.6
+let store_upto_charged=${1:-332}
+let store_upto_uubar=${2:-705}
+let store_upto_ddbar=${3:-176}
+let store_upto_ssbar=${4:-168}
+let store_upto_ccbar=${5:-640}
+let store_upto_signal=${6:-3}
+# 73.9:26.1
+# let store_upto_charged=${1:-443}
+# let store_upto_uubar=${2:-941}
+# let store_upto_ddbar=${3:-235}
+# let store_upto_ssbar=${4:-224}
+# let store_upto_ccbar=${5:-854}
+# let store_upto_signal=${6:-4}
+# 80:20
+# let store_upto_charged=${1:-480}
+# let store_upto_uubar=${2:-1019}
+# let store_upto_ddbar=${3:-255}
+# let store_upto_ssbar=${4:-243}
+# let store_upto_ccbar=${5:-924}
+# # let store_upto_signal=${6:-5}
+# let store_upto_signal=${6:-6}   # we will keep 5th file for test and {(1-4)&6} files are for train
 let store_upto=0
 
 
@@ -111,10 +126,10 @@ do
     path_in_string=""  # Empty string
     for((i=0; i<$store_upto; i++))
     do
-        if [[ $opt == "signal" && $i = "4" ]]   # checks ASCII alphabetic code; not mathematical operation
-        then
-            continue    # we will keep 5th file for test and {(1-4)&6} files are for train
-        fi
+        # if [[ $opt == "signal" && $i = "4" ]]   # checks ASCII alphabetic code; not mathematical operation
+        # then
+        #     continue    # we will keep 5th file for test and {(1-4)&6} files are for train
+        # fi
         path_in_string+=" ${input_file_array[i]}"
     done
 

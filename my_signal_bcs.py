@@ -8,15 +8,17 @@ import sys
 # 1st 2 are for input and next 2 are for output
 input_filename = []
 output_filename = []
-for i in range(1, 3):
+# for i in range(1, 3):
+for i in range(1, 2):
     input_filename.append(sys.argv[i])
-print(f"2 Input files are {input_filename}")
-for i in range(3, 5):
+print(f"1 Input file(s) is/are {input_filename}")
+# for i in range(3, 5):
+for i in range(2, 3):
     output_filename.append(sys.argv[i])
-print(f"2 Onput files are {output_filename}")
+print(f"1 Ouput file(s) is/are {output_filename}")
 
 total_signal_event_number = 0
-for i in range(2):
+for i in range(1):
     # Loading input root file and creating new root file
     inFile = ROOT.TFile.Open(f"{input_filename[i]}")
     inTree = inFile.Get('tree')

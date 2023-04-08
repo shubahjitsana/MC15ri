@@ -38,13 +38,13 @@ ma.fillParticleList("pi+:myPions2", "abs(d0)<0.2 and abs(z0)<1 and cosTheta >= -
 ma.fillParticleList("K+", "abs(d0)<0.2 and abs(z0)<1 and cosTheta >= -0.6", path=main)
 
 #D0 reconstruction
-ma.reconstructDecay("anti-D0 -> K+ pi-:myPions2",cut="1.85 < InvM < 1.88",path=main)
+ma.reconstructDecay("anti-D0 -> K+ pi-:myPions2",cut="1.84 < InvM < 1.89",path=main)
 ma.variablesToExtraInfo("anti-D0", variables={'M': 'M_before_fit'}, path=main)
 vx.kFit("anti-D0", conf_level=0.0, fit_type='massvertex', path=main)
 ma.matchMCTruth("anti-D0", path=main)
 
 #B reconstruction
-ma.reconstructDecay("B+ -> anti-D0 pi+:myPions2 pi-:myPions2 pi+:myPions2",cut="5.23 < Mbc < 5.29 and abs(deltaE) < 0.15",path=main)
+ma.reconstructDecay("B+ -> anti-D0 pi+:myPions2 pi-:myPions2 pi+:myPions2",cut="5.22 < Mbc < 5.3 and abs(deltaE) < 0.12",path=main)
 ma.matchMCTruth("B+", path=main)
 
 ma.buildRestOfEvent(target_list_name="B+", path=main)
@@ -296,33 +296,80 @@ Angel_var = ['AngelD0and1stpi', 'AngelD0and2ndpi', 'AngelD0and3rdpi', 'Angel1sta
 
 
 # Create list of variables to save into the output file
+vm.addAlias('ethoo0', 'formula((KSFWVariables(et) - KSFWVariables(hoo0))/(KSFWVariables(et) + KSFWVariables(hoo0)))')
+vm.addAlias('hso00mm2', 'formula((KSFWVariables(hso00) - KSFWVariables(mm2))/(KSFWVariables(hso00) + KSFWVariables(mm2)))')
+vm.addAlias('hoo3hoo1', 'formula((KSFWVariables(hoo3) + KSFWVariables(hoo1)))')
+vm.addAlias('hso01hso03', 'formula((KSFWVariables(hso01) + KSFWVariables(hso03)))')
+vm.addAlias('ethoo0TBz', 'formula((ethoo0 - cosTBz)/(ethoo0 + cosTBz))')
+vm.addAlias('ethoo0hso00mm2', 'formula((ethoo0 - hso00mm2)/(ethoo0 + hso00mm2))')
+vm.addAlias('hso12hso02hoo2', 'formula((KSFWVariables(hso12) + KSFWVariables(hso02) + KSFWVariables(hoo2)))')
+vm.addAlias('hso12hso02hoo2thrustOm_lc', 'formula((hso12hso02hoo2 - thrustOm)/(hso12hso02hoo2 + thrustOm))')
+vm.addAlias('hso12hso02hoo2thrustOm_p', 'formula((hso12hso02hoo2 + thrustOm))')
+
+###################################R2
+vm.addAlias('R2cosTBTO_lc', 'formula((R2 - cosTBTO)/(R2 + cosTBTO))')
+vm.addAlias('R2cosTBTO_p', 'formula((R2 + cosTBTO))')
+vm.addAlias('R2thrustBm_lc', 'formula((R2 - thrustBm)/(R2 + thrustBm))')
+vm.addAlias('R2thrustBm_p', 'formula((R2 + thrustBm))')
+vm.addAlias('TBTOhso12', 'formula((cosTBTO - KSFWVariables(hso12))/(cosTBTO + KSFWVariables(hso12)))')
+vm.addAlias('thrustOmhoo2', 'formula((thrustOm - KSFWVariables(hoo2))/(thrustOm + KSFWVariables(hoo2)))')
+
+vm.addAlias('R2thrustBmTBTOhso12', 'formula((R2thrustBm_lc - TBTOhso12)/(R2thrustBm_lc + TBTOhso12))')
+vm.addAlias('R2thrustBmthrustOmhoo2', 'formula((R2thrustBm_lc - thrustOmhoo2)/(R2thrustBm_lc + thrustOmhoo2))')
+vm.addAlias('TBTOhso12thrustOmhoo2', 'formula((TBTOhso12 - thrustOmhoo2)/(TBTOhso12 + thrustOmhoo2))')
+
+vm.addAlias('R2thrustBmTBTOhso12thrustOmhoo2', 'formula((R2thrustBmTBTOhso12 - thrustOmhoo2)/(R2thrustBmTBTOhso12 + thrustOmhoo2))')
+
+##########################R2
+
+vm.addAlias('CMS_cosTheta', 'useCMSFrame(cosTheta)')
 simpleCSVariables = [
+    "ethoo0",
+    "hso00mm2",
+    "ethoo0hso00mm2",
+    "hoo3hoo1",
+    "hso01hso03",
+    "ethoo0TBz",
+    "hso12hso02hoo2",
+    "hso12hso02hoo2thrustOm_lc",
+    "hso12hso02hoo2thrustOm_p",
+    "R2cosTBTO_lc",
+    "R2cosTBTO_p",
+    "R2thrustBm_lc",
+    "R2thrustBm_p",
+    "TBTOhso12",
+    "thrustOmhoo2",
+    "R2thrustBmTBTOhso12",
+    "R2thrustBmthrustOmhoo2",
+    "TBTOhso12thrustOmhoo2",
+    "R2thrustBmTBTOhso12thrustOmhoo2",
     "abs_qr",       # calculated using ft.flavorTagger fn
     "sphericity",   # calculated using ma.buildEventShape fn
     "DeltaZ",       # calculated using vx.TagV fn
     "R2",           # rest of the variables are calculated using ma.buildContinuumSuppression fn
-    "thrustBm",
-    "thrustOm",
-    "cosTBTO",
-    "cosTBz",
-    "KSFWVariables(et)",
+    "thrustBm",  #must    #significance
+    "thrustOm",  #must    #significance
+    "cosTBTO",  #must    #significance
+    "cosTBz",  #must    #significance
+    "CMS_cosTheta",  #must    #significance
+    "KSFWVariables(et)",    #significance
     "KSFWVariables(mm2)",
     "KSFWVariables(hso00)",
     "KSFWVariables(hso01)",
-    "KSFWVariables(hso02)",
+    "KSFWVariables(hso02)",  #must    #significance     #############nearly_same##########
     "KSFWVariables(hso03)",
-    "KSFWVariables(hso04)",
-    "KSFWVariables(hso10)",
-    "KSFWVariables(hso12)",
-    "KSFWVariables(hso14)",
-    "KSFWVariables(hso20)",
+    "KSFWVariables(hso04)",    #significance
+    "KSFWVariables(hso10)",    #significance
+    "KSFWVariables(hso12)",  #must    #significance     #############nearly_same##########
+    "KSFWVariables(hso14)",    #significance
+    "KSFWVariables(hso20)",    #significance
     "KSFWVariables(hso22)",
     "KSFWVariables(hso24)",
-    "KSFWVariables(hoo0)",
+    "KSFWVariables(hoo0)",  #must    #significance
     "KSFWVariables(hoo1)",
-    "KSFWVariables(hoo2)",
+    "KSFWVariables(hoo2)",    #significance
     "KSFWVariables(hoo3)",
-    "KSFWVariables(hoo4)",
+    "KSFWVariables(hoo4)",    #significance
     "CleoConeCS(1)",
     "CleoConeCS(2)",
     "CleoConeCS(3)",

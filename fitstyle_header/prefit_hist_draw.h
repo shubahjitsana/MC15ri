@@ -38,11 +38,12 @@
 #include "RooArgusBG.h"
 using namespace RooFit ;
 using namespace std;
-void prefit_hist_draw(RooRealVar var_name, RooDataSet* dataset_name){
-  RooDataHist* binDataSet = new RooDataHist("binDataSet", "binDataSet", var_name, *dataset_name);
-  TCanvas *c1 = new TCanvas("c1", "", 1500, 1500);  
-  RooPlot* xframe1 = var_name.frame(	Title(" ")	, Bins(200));
+void prefit_hist_draw(RooRealVar* var_name, RooDataSet* dataset_name){
+  RooDataHist* binDataSet = new RooDataHist("binDataSet", "binDataSet", *var_name, *dataset_name);
+  RooPlot* xframe1 = var_name->frame(	Title("prefit")	, Bins(200));
   binDataSet->plotOn(	xframe1	, Binning(200)		, DataError(RooAbsData::SumW2));
   xframe1->Draw();
-  c1 -> Print("prefit_histo.png");
+
+  TCanvas *prefit_canvas = new TCanvas("prefit_canvas", "", 1500, 1500);  
+  prefit_canvas -> Print("prefit_histo.png");
 }

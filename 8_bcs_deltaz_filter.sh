@@ -4,7 +4,8 @@
 path=$(pwd)
 
 # path of steering file code
-pyrt_file="$path/my_deltaz_filter.py"                      
+pyrt_file="$path/my_deltaz_filter_with_veto.py"                      
+# pyrt_file="$path/my_deltaz_filter.py"                      
 echo "Steering file is $pyrt_file"
 
 # Input Directory

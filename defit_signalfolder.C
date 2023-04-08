@@ -48,45 +48,68 @@ void defit_signalfolder(){
     RooDataSet* data_signalfolder=new RooDataSet("data","data",RooArgSet(deltae_signalfolder));
     /*******************Input root file**********************************/
     TChain* chain_signalfolder=new TChain();
-    chain_signalfolder->Add("/home/belle2/ssana/MC15ri/cs_fom_data/combined/scaled_signal.root/tree");
+    chain_signalfolder->Add("/home/belle2/ssana/MC15ri/cs/test/prescale_combine/test_signal_TM_scaled.root/tree");
 
-    Double_t  de3_signalfolder, md03_signalfolder, mbc3_signalfolder, r23_signalfolder, kid3_signalfolder,pid3_signalfolder,sig_signalfolder,cont_prob_signalfolder;
+
+    Double_t  de3_signalfolder, md03_signalfolder, mbc3_signalfolder, kid3_signalfolder,pid3_signalfolder,sig_signalfolder,sig_prob_signalfolder;
+    Double_t D_s_InvM_signalfolder, D_10D_md_signalfolder, InvM1stand2ndpi_signalfolder, InvM2ndand3rdpi_signalfolder;
+    Double_t InvMD0and1stpi_signalfolder, InvMD0and2ndpi_signalfolder, InvMD0and3rdpi_signalfolder, DstrminusroeD_md_signalfolder;
     Int_t run_signalfolder;
     Int_t nevt3_signalfolder=(int)chain_signalfolder->GetEntries();
 
-    // chain_signalfolder->SetBranchAddress("isSignal",&sig);
+    // chain->SetBranchAddress("isSignal",&sig);
     chain_signalfolder->SetBranchAddress("deltaE",&de3_signalfolder);
     chain_signalfolder->SetBranchAddress("Mbc",&mbc3_signalfolder);
     chain_signalfolder->SetBranchAddress("D0_bar_InvM",&md03_signalfolder);
     chain_signalfolder->SetBranchAddress("Kp_PID_bin_kaon",&kid3_signalfolder);
-    chain_signalfolder->SetBranchAddress("ContProb",&cont_prob_signalfolder);
-    // chain_signalfolder->SetBranchAddress("R2",&r23);
-    // chain_signalfolder->SetBranchAddress("pi_PID_bin_pion",&pid3);
-    // chain_signalfolder->SetBranchAddress("__run__",&run);
+    chain_signalfolder->SetBranchAddress("SigProb",&sig_prob_signalfolder);
+    chain_signalfolder->SetBranchAddress("D_s_InvM",&D_s_InvM_signalfolder);
+    chain_signalfolder->SetBranchAddress("D_10D_md",&D_10D_md_signalfolder);
+    chain_signalfolder->SetBranchAddress("InvM1stand2ndpi",&InvM1stand2ndpi_signalfolder);
+    chain_signalfolder->SetBranchAddress("InvM2ndand3rdpi",&InvM2ndand3rdpi_signalfolder);
+    chain_signalfolder->SetBranchAddress("InvMD0and1stpi",&InvMD0and1stpi_signalfolder);
+    chain_signalfolder->SetBranchAddress("InvMD0and2ndpi",&InvMD0and2ndpi_signalfolder);
+    chain_signalfolder->SetBranchAddress("InvMD0and3rdpi",&InvMD0and3rdpi_signalfolder);
+    chain_signalfolder->SetBranchAddress("DstrminusroeD_md",&DstrminusroeD_md_signalfolder);
+    // chain_signalfolder->SetBranchAddress("",&);
+
     
-    // D0_bar_InvM >1.84 && D0_bar_InvM <1.89 && Mbc>5.27 && Mbc < 5.29 && deltaE < 0.1 && deltaE > -0.1 && Kp_PID_bin_kaon > 0.6 && ContProb < 0.86
+    // D0_bar_InvM >1.84 && D0_bar_InvM <1.89 && Mbc>5.27 && Mbc < 5.29 && deltaE < 0.1 && deltaE > -0.1 && Kp_PID_bin_kaon > 0.6 && SigProb < 0.86
     //Loading data 
     Double_t counter_signalfolder =0;
     for(int l=0;l<nevt3_signalfolder;l++) {
         chain_signalfolder->GetEntry(l);
         deltae_signalfolder.setVal(de3_signalfolder);
-        if(md03_signalfolder>1.85 && md03_signalfolder<1.88 && mbc3_signalfolder>5.23 && mbc3_signalfolder < 5.29 && de3_signalfolder < 0.1 && de3_signalfolder > -0.1 && kid3_signalfolder > 0.6 && cont_prob_signalfolder < 0.6){
+        if(mbc3_signalfolder>5.23 && mbc3_signalfolder < 5.29 && 
+        de3_signalfolder < 0.1 && de3_signalfolder > -0.1 &&
+        md03_signalfolder>1.85 && md03_signalfolder<1.88 &&  
+        kid3_signalfolder > 0.6 && 
+        (D_s_InvM_signalfolder < 1.958 || D_s_InvM_signalfolder > 1.978) &&
+        (D_10D_md_signalfolder < 0.496 || D_10D_md_signalfolder > 0.628) &&
+        (InvM1stand2ndpi_signalfolder < 0.489 || InvM1stand2ndpi_signalfolder > 0.506) &&
+        (InvM2ndand3rdpi_signalfolder < 0.49 || InvM2ndand3rdpi_signalfolder > 0.505) &&
+        (InvMD0and1stpi_signalfolder < 2.0085 || InvMD0and1stpi_signalfolder > 2.0122) &&
+        (InvMD0and2ndpi_signalfolder < 2.0087 || InvMD0and2ndpi_signalfolder > 2.0118) &&
+        (InvMD0and3rdpi_signalfolder < 2.009 || InvMD0and3rdpi_signalfolder > 2.0116) &&
+        (DstrminusroeD_md_signalfolder < 0.14402 || DstrminusroeD_md_signalfolder > 0.14682) &&
+        sig_prob_signalfolder > 0.21){
             data_signalfolder->add(RooArgSet(deltae_signalfolder));
             counter_signalfolder++;
         }
     }
 
+
     /*****************************Delta E Fit***********************/
     // --- Build Signal PDF ---
     RooRealVar mean1_signalfolder("mean1","mean of Gaussian-1",-0.001,-0.02,0.02);
     RooRealVar mean2_signalfolder("mean2","mean of Gaussian-2",0.002,-0.02,0.02);
-    RooRealVar sigma1_signalfolder("sigma1","sigma of Gaussian-1",0., 0., 1);	
+    RooRealVar sigma1_signalfolder("sigma1","sigma of Gaussian-1",0.01, 0., 1);	
     RooRealVar sigma2_signalfolder("sigma2","sigma of Gaussian-2",0.01191,0.00000001,1);
 
     RooGaussian sig1_signalfolder("sig1","Gaussian-1",deltae_signalfolder,mean1_signalfolder,sigma1_signalfolder);  
     RooGaussian sig2_signalfolder("sig2","Gaussian-2",deltae_signalfolder,mean2_signalfolder,sigma2_signalfolder);
 
-    RooRealVar fsig_1_signalfolder("frac_gaussians", "signal fraction", 0.5,0.,1.);
+    RooRealVar fsig_1_signalfolder("frac_gaussians", "signal fraction", 0.7,0.,1.);
     RooAddPdf sum_signalfolder("twoGaussians", "sum of two Gaussians ",RooArgList(sig1_signalfolder, sig2_signalfolder), RooArgList(fsig_1_signalfolder));
     sum_signalfolder.fitTo(*data_signalfolder);
     /****************************FIT COMPLETE*************************************/

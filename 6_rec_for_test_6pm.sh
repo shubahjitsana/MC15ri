@@ -17,18 +17,18 @@ echo "Steering file is $steering_file"
 weightfile="$path/cs/test/MVAFastBDT.root"
 echo "Path of weightfile is $weightfile"
 
-let rec_start_charged=${1:-481}-1        #as for loop starts from next numbering
-let rec_start_uubar=${2:-1020}-1
-let rec_start_ddbar=${3:-256}-1
-let rec_start_ssbar=${4:-244}-1
-let rec_start_ccbar=${5:-925}-1
-# let rec_start_signal=${6:-6}-1
-let rec_start_signal=${6:-5}-1  # we will keep 5th file for test and {(1-4)&6} files are for train
+
+let rec_start_charged=${1:-1}-1        #as for loop starts from next numbering
+let rec_start_uubar=${2:-1}-1
+let rec_start_ddbar=${3:-1}-1
+let rec_start_ssbar=${4:-1}-1
+let rec_start_ccbar=${5:-1}-1
+let rec_start_signal=${6:-1}-1
 let rec_start_mixed=${7:-1}-1
 let rec_start=0
 
 # Strating reconstruction
-declare -a options=("signal" "charged" "uubar" "ddbar" "ssbar" "ccbar") # "mixed"
+declare -a options=("signal" "charged" "uubar" "ddbar" "ssbar" "ccbar" "mixed") # "mixed"
 
 for opt in "${options[@]}"
 do
@@ -134,10 +134,10 @@ do
     let i=0
     for((i=$rec_start; i<$length_input_file_array; i++))
     do
-        if [[ $opt == "signal" && $i = "5" ]]
-        then
-            continue    # we will keep 5th file for test and {(1-4)&6} files are for train
-        fi
+        # if [[ $opt == "signal" && $i = "5" ]]
+        # then
+        #     continue    # we will keep 5th file for test and {(1-4)&6} files are for train
+        # fi
         echo "$(bsub -q s "basf2 $steering_file ${input_file_array[$i]} $output_folder_name $weightfile")"
     done
 done

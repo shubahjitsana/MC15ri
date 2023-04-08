@@ -27,7 +27,7 @@ general_options.m_variables = basf2_mva.vector(
     "KSFWVariables(hso02)",  #must    #significance
     # "KSFWVariables(hso03)",
     # "KSFWVariables(hso04)",    #significance
-    "KSFWVariables(hso10)",    #significance
+    # "KSFWVariables(hso10)",    #significance
     "KSFWVariables(hso12)",  #must    #significance
     # "KSFWVariables(hso14)",    #significance
     # "KSFWVariables(hso20)",    #significance

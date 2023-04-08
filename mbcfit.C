@@ -48,7 +48,7 @@ void mbcfit(){
   RooDataSet* data=new RooDataSet("data","data",RooArgSet(mbc));
   /*******************Input root file**********************************/
   TChain* chain=new TChain();
-  chain->Add("/home/belle2/ssana/MC15ri/cs_fom_data/combined/all.root/tree");
+  chain->Add("/home/belle2/ssana/MC15ri/cs/test_10_8_thrustBm_cosTBTO/signal_scaled/test.root/tree");
 
   Double_t  de3, md03, mbc3, r23, kid3,pid3,sig,cont_prob;
   Int_t run;
@@ -58,7 +58,7 @@ void mbcfit(){
   chain->SetBranchAddress("deltaE",&de3);
   chain->SetBranchAddress("Mbc",&mbc3);
   chain->SetBranchAddress("D0_bar_InvM",&md03);
-  chain->SetBranchAddress("ContProb",&cont_prob);
+  chain->SetBranchAddress("SigProb",&cont_prob);
   chain->SetBranchAddress("Kp_PID_bin_kaon",&kid3);
   // chain->SetBranchAddress("R2",&r23);
   // chain->SetBranchAddress("pi_PID_bin_pion",&pid3);
@@ -70,7 +70,7 @@ void mbcfit(){
   for(int l=0;l<nevt3;l++) {
     chain->GetEntry(l);
     mbc.setVal(mbc3);
-    if(md03>1.85 && md03<1.88 && mbc3>5.23 && mbc3 < 5.29 && de3 < 0.1 && de3 > -0.1 && kid3 > 0.6 && cont_prob < 0.6){
+    if(md03>1.85 && md03<1.88 && mbc3>5.23 && mbc3 < 5.29 && de3 < 0.1 && de3 > -0.1 && kid3 > 0.6 && cont_prob > 0.3){
       data->add(RooArgSet(mbc));
       counter++;
     }
